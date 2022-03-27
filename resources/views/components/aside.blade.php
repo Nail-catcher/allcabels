@@ -1,5 +1,3 @@
-<aside></aside>
-
 <aside>
 	<div class="aside__top">
 		<a href="/" class="logo">
@@ -14,7 +12,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="/manufacture" class="{{ request()->is('manufacture*') ? 'active' : '' }}">
+					<a href="/fabric" class="{{ request()->is('fabric*') ? 'active' : '' }}">
 						<svg><use xlink:href="{{ asset('images/svg/sprite.symbol.svg#manufacture') }}" /></svg>
 						<span>Заводы</span>
 					</a>
@@ -26,9 +24,9 @@
 					</a>
 				</li>
 				<li>
-					<a href="/instruction" class="{{ request()->is('instruction*') ? 'active' : '' }}">
+					<a href="/about" class="{{ request()->is('about*') ? 'active' : '' }}">
 						<svg><use xlink:href="{{ asset('images/svg/sprite.symbol.svg#faq') }}" /></svg>
-						<span>Инструкция системы</span>
+						<span>О системе</span>
 					</a>
 				</li>
 			</ul>
