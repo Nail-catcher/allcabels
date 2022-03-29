@@ -87,9 +87,10 @@ class PointController extends Controller
      * @param  \App\Models\Point  $point
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Point $point)
+    public function destroy($id)
     {
+        $point = Point::where('id', $id)->first();
         $point -> delete();
-        return  'success';
+        return  redirect()->back();
     }
 }

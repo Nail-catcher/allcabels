@@ -26,7 +26,7 @@ class PointStore extends FormRequest
     {
         return [
             'index' => [
-                'required',
+                'nullable',
                 'string',
                 'max:255'
             ],

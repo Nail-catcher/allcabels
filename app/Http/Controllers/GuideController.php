@@ -46,6 +46,7 @@ class GuideController extends Controller
         $guide->fill($data)->toJson();
         $guide->fabric()->associate($data['fabric']);
         $guide->save();
+
         return $guide;
     }
 

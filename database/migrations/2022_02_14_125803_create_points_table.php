@@ -15,7 +15,7 @@ class CreatePointsTable extends Migration
     {
         Schema::create('points', function (Blueprint $table) {
             $table->id();
-            $table->string('index');
+            $table->string('index')->nullable();
             $table->text('description');
             $table->foreignId('guide_id')->constrained('guides')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
