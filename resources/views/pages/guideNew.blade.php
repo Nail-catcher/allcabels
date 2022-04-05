@@ -20,7 +20,7 @@
         <h1>Cправочник {{$guide->name}}</h1>
       </div>
       <div>
-      	<a href="/fabric/exclusion/new" class="btn btn-secondary">Задать исключения</a>
+      	{{--<a href="/fabric/exclusion/new" class="btn btn-secondary">Задать исключения</a>--}}
       	<a href="#" class="btn btn-primary">Импорт Excel</a>
       </div>
     </div>
