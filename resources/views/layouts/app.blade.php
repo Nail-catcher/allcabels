@@ -13,6 +13,7 @@
     <script src="{{ asset('js/jquery-ui/jquery-ui.min.js') }}" defer></script>
     <script src="{{ asset('js/jquery-multiple-select/src/jquery.multi-select.min.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!-- Styles -->
@@ -25,11 +26,16 @@
     <section>
         <!-- Sidebar -->
         <x-aside />
-        <div class="content">
+        <div class="content" >
             <!-- Header -->
             <x-header />
             @yield('content')
         </div>
+
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+
 </body>
 </html>

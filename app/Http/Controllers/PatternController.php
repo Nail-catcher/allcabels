@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PatternStore;
 use App\Http\Resources\PatternsResource;
+use App\Models\Constant;
 use App\Models\Pattern;
 use Illuminate\Http\Request;
 
@@ -40,11 +41,24 @@ class PatternController extends Controller
     public function store(PatternStore $request)
     {
         $data = $request->validated();
+//        dd($data);
         $pattern = new Pattern();
         $pattern ->fill($data);
         $pattern->fabric()->associate($data['fabric']);
-
         $pattern->save();
+
+
+        for ($i=0; $i<count($data['guides']);$i++){
+            if($data['guides'][$i]['type']=="checkli"){
+            $pattern->guides()->attach($data['guides'][$i]['id'], ['index'=>$i, 'unique'=>$data['guides'][$i]['unique']??0]);
+            } else {
+                $const = new Constant([
+                    'title'=>$data['guides'][$i]['name']
+                ]);
+                $const->save();
+                $pattern->constants()->attach($const, ['index'=>$i]);
+            }
+            }
 
         return $pattern;
     }

@@ -17,6 +17,8 @@ class CreateConflictsTable extends Migration
             $table->id();
             $table->foreignId('first_point_id')->constrained('points')->cascadeOnDelete()->cascadeOnUpdate();;
             $table->foreignId('second_point_id')->constrained('points')->cascadeOnDelete()->cascadeOnUpdate();;
+            $table->foreignId('fabric_id')->constrained('fabrics')->cascadeOnDelete()->cascadeOnUpdate();
+
         });
     }
 

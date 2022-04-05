@@ -23,7 +23,7 @@ Route::resource('/guides', \App\Http\Controllers\GuideController::class);
 Route::resource('/patterns', \App\Http\Controllers\PatternController::class);
 Route::resource('/points', \App\Http\Controllers\PointController::class);
 Route::resource('/products', \App\Http\Controllers\ProductController::class);
-Route::resource('/conflicts', \App\Http\Controllers\ConflictController::class);
+Route::resource('/apiconflicts', \App\Http\Controllers\ConflictController::class);
 Route::resource('/constants', \App\Http\Controllers\ConstantController::class);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

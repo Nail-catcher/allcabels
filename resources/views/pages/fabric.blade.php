@@ -22,7 +22,7 @@
         			<div class="content__card-title">{{$fabric->name}}</div>
         			<div class="content__card-btn">
         				<a href="/guides?fabric={{$fabric->id}}" class="btn btn-primary">Справочники</a>
-        				<a href="/fabric/id0/patterns" class="btn btn-secondary">Шаблоны</a>
+        				<a href="/patterns?fabric={{$fabric->id}}" class="btn btn-secondary">Шаблоны</a>
         			</div>
 
         		</div>

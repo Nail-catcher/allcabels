@@ -5,7 +5,7 @@
  	<ul>
  		<li><a href="/">Главная</a></li>
         <li><a href="/fabric">Заводы</a></li>
-        <li><a href="/fabric">Шаблоны {{$id}}</a></li>
+        <li><a href="/fabric">Шаблоны {{$pattern->id}}</a></li>
  		<li><span>Исключения</span></li>
  	</ul>
 </div>
@@ -17,31 +17,34 @@
         <div class="content__header">
         	<div>
             	<a href="{{ url()->previous() }}" class="header-back"></a>
-            	<h1>Исключения «Шаблона {{$pid}}»</h1>
+            	<h1>Исключения «Шаблона {{$pattern->name}}»</h1>
         	</div>
+            <div>
+                <a href="/patternconflicts/create?pattern={{$pattern->id}}" class="btn btn-primary">Задать исключения</a>
+            </div>
         </div>
         <div class="content__table">
             <table>
                 <thead>
                   <tr>
-                    <th>Название</th>
+                    {{--<th>Название</th>--}}
                     <th>Исключающий индекс</th>
                     <th>Исключаемый индекс</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  @for ($i = 0; $i < 16; $i++) <tr>
-                    <td>Исключение 1</td>
-                    <td>нг(А)</td>
-                    <td>УФ</td>
+                  @foreach ($conflicts as $conflict) <tr>
+                    {{--<td>Исключение 1</td>--}}
+                      <td>{{$conflict->firstPoint->index}}</td>
+                      <td>{{$conflict->secondPoint->index}}</td>
                     <td>
                       <div class="table__action">
                         <a title="Удалить" href="#" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
                       </div>
                     </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
             <div class="content__footer">

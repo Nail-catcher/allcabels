@@ -20,9 +20,13 @@ class Conflict extends Model
     {
         return $this->belongsTo(Point::class, 'second_point_id', 'id');
     }
-    public function patterns()
+    public function pattern()
     {
-        return $this->belongsToMany(Pattern::class, 'pattern_conflict');
+        return  $this->belongsTo(Pattern::class);
+    }
+    public function fabric()
+    {
+        return $this->belongsTo(Fabric::class, 'fabric_id');
     }
 
 }

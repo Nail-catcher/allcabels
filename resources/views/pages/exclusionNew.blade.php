@@ -5,7 +5,7 @@
   <ul>
     <li><a href="/">Главная</a></li>
     <li><a href="/fabric">Заводы</a></li>
-    <li><a href="{{ url()->previous() }}">Справочники {{$id}}</a></li>
+    <li><a href="{{ url()->previous() }}">Справочники {{$fabric->name}}</a></li>
     <li><span>Новый справочник</span></li>
   </ul>
 </div>
@@ -19,31 +19,29 @@
         <a href="{{ url()->previous() }}" class="header-back"></a>
         <h1>Выберите исключающий индекс</h1>
       </div>
-      <div>
-      	<a href="#" class="btn btn-secondary">Отменить</a>
-      	<a href="#" class="btn btn-primary">Сохранить исключения</a>
-      </div>
+      {{--<div>--}}
+      	{{--<a href="#" class="btn btn-secondary">Отменить</a>--}}
+      	{{--<a href="#" class="btn btn-primary">Сохранить исключения</a>--}}
+      {{--</div>--}}
     </div>
     <div class="content__list" style="flex: 0 0 100%; width: 100%;">
         <div class="content__list-header">
           <form action="" class="content__list-index">
             @if(isset(request() -> index))
               <span class="label label-in">{{ request() -> index }}</span>
-              <span class="label label-out">{{ request() -> index }}</span>
-              <span class="label label-out">{{ request() -> index }}</span>
             @else
-              <div class="placeholder">тут будут выбранный справочники</div>
+              <div class="placeholder"></div>
             @endif
           </form>
         </div>
         <div class="content__list-list">
           <strong>Выберите справочник</strong>
           <ul>
-            @for ($i = 0; $i < 16; $i++)
+            @foreach ($guides as $guide)
             <li class="content__list-item">
-              <a href="/fabric/{{$id}}/exclusion/index"><span>Использование кабеля во взрывоопасных зонах</span></a>
+              <a href="/conflicts/show?guide={{$guide->id}}&fabric={{$fabric->id}}"><span>{{$guide->name}}</span></a>
             </li>
-            @endfor
+            @endforeach
           </ul>
         </div>
     </div>

@@ -16,7 +16,7 @@
         <div class="content__header">
         	<div>
             	<a href="{{ url()->previous() }}" class="header-back"></a>
-            	<h1>Шаблоны {{$id}} <a href="/fabric/{{$id}}/patterns/new" class="add">+</a></h1>
+            	<h1>Шаблоны {{$fabric->name}} <a href="/patterns/create?fabric={{$fabric->id}}" class="add">+</a></h1>
         	</div>
         </div>
         <div class="content__table">
@@ -28,18 +28,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for ($i = 0; $i < 16; $i++) <tr>
-                    <td>Шаблон 1</td>
+                  @foreach ($patterns as $pattern) <tr>
+                    <td>{{$pattern->name}}</td>
                     <td>
                       <div class="table__action">
                         <button class="btn btn-primary"><img src="{{ asset('images/svg/generate.svg') }}" alt=""> Сгенерировать</button>
-                        <a title="Исключения" href="/fabric/{{$id}}/patterns/{{$i}}/exclusion" class="table__action-exclusion"><img src="{{ asset('images/svg/exc.svg') }}" alt=""></a>
+                        <a title="Исключения" href="/patternconflicts/?pattern={{$pattern->id}}" class="table__action-exclusion"><img src="{{ asset('images/svg/exc.svg') }}" alt=""></a>
                         <a title="Редактировать" href="#" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
                         <a title="Удалить" href="#" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
                       </div>
                     </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
             <div class="content__footer">

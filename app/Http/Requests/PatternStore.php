@@ -33,25 +33,26 @@ class PatternStore extends FormRequest
             ],
             'fabric' => [
                 'required',
-                Rule::exists('fabrics', 'id')
+                'string',
+//                Rule::exists('fabrics', 'id')
             ],
             'guides' => [
                 'nullable',
                'array'
             ],
             'guides.*' => [
-                'require',
-                Rule::exists('guides', 'id')
+                'required',
+               // Rule::exists('guides', 'id')
             ],
-
-            'conflicts' => [
-                'nullable',
-                'array'
-            ],
-            'conflicts.*' => [
-                'require',
-                Rule::exists('conflicts', 'id')
-            ],
+//
+//            'conflicts' => [
+//                'nullable',
+//                'array'
+//            ],
+//            'conflicts.*' => [
+//                'require',
+//                Rule::exists('conflicts', 'id')
+//            ],
         ];
     }
 }

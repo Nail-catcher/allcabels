@@ -16,7 +16,7 @@
         <a href="{{ url()->previous() }}" class="header-back"></a>
         <h1>Справочники  {{$fabric->name}}<a href="#" class="add" data-modal data-target="addManufacture">+</a></h1>
       </div>
-      <a href="/fabric/?/exclusion" class="btn btn-secondary">Исключения <img src="{{ asset('images/svg/exclusion.svg') }}" alt=""></a>
+      <a href="/conflicts?fabric={{$fabric->id}}" class="btn btn-secondary">Исключения <img src="{{ asset('images/svg/exclusion.svg') }}" alt=""></a>
     </div>
     <div class="content__table">
       <table>

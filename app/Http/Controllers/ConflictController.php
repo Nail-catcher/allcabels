@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConflictStore;
 use App\Models\Conflict;
+use App\Models\Pattern;
 use App\Models\Point;
 use Illuminate\Http\Request;
 
@@ -36,16 +37,28 @@ class ConflictController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ConflictStore $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $conflict = new Conflict();
-        $conflict->firstPoint()->associate($data['firstPoint']);
-        $conflict->secondPoint()->associate($data['secondPoint']);
+        $data = $request;
+//        dd($data);
 
+        foreach ($data->secondPoints as $sp){
+        $conflict = new Conflict();
+        $conflict->firstPoint()->associate($data->firstPoint);
+        $conflict->secondPoint()->associate($sp);
+            if($data->pattern) {
+                $pattern=Pattern::whereId($data->pattern)->first();
+                $conflict->pattern()->associate($pattern->id);
+
+                $conflict->fabric()->associate($pattern->fabric);
+            } else {
+        $conflict->fabric()->associate($data->fabric);
+            }
         $conflict->save();
-        $conflict->patterns()->attach($data['pattern']);
-        return $conflict;
+
+
+        }
+        return 'success';
     }
 
     /**
