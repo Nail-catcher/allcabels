@@ -39,7 +39,7 @@
                     <ul>
                         @foreach ($guides as $guide)
                             <li class="content__list-item">
-                                <a href="/conflicts/show?guide={{$guide->id}}&fabric={{$fabric->id}}&index={{$selectPoint}}"><span>{{$guide->name}}</span></a>
+                                <a href="/conflicts/show?guide={{$guide->id}}&fabric={{$fabric->id}}&index={{request() -> index }}"><span>{{$guide->name}}</span></a>
                             </li>
                         @endforeach
                     </ul>
