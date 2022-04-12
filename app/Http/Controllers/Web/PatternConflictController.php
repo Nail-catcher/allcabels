@@ -110,8 +110,9 @@ class PatternConflictController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Conflict $conflict)
     {
-        //
+        $conflict -> delete();
+        return  redirect()->back();
     }
 }

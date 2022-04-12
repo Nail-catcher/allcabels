@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/patterns/{pattern}/patternPoints', [\App\Http\Controllers\PatternController::class, 'patternPoints']);
 
 Route::resource('/product', \App\Http\Controllers\ProductsController::class);
-Route::get('/storeProduct', \App\Http\Controllers\ProductController::class);
+Route::get('/storeProduct', \App\Http\Controllers\ProductController::class)->name('generate');
 Route::resource('/fabrics', \App\Http\Controllers\FabricController::class);
 //Route::resource('/products', \App\Http\Controllers\ProductsController::class);
 Route::resource('/guides', \App\Http\Controllers\GuideController::class);

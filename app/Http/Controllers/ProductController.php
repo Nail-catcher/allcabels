@@ -13,15 +13,15 @@ class ProductController extends Controller
     /*
      * TODO::To post and attach parametres (pattern id)
      * */
-   public function __invoke()
+   public function __invoke(Request $request)
    {
-       $pattern = Pattern::whereId(3)->first();
+       $pattern = Pattern::whereId($request->pattern)->first();
        $points = collect($pattern->constants)
            ->merge(collect($pattern->guides))
            ->sortBy('pivot.index');
-       $conflicts = Conflict::whereHas('patterns',  function ($query) use ($pattern) {
+       $conflicts = Conflict::whereHas('pattern',  function ($query) use ($pattern) {
            $query->where('id', '=' ,$pattern->id);
-       })->orHas('patterns','<',1)->get();
+       })->orHas('pattern','<',1)->get();
        $products = $this->prepairProducts($pattern,$points);
 
        $products = $this->segregateProducts($products,$conflicts);

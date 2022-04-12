@@ -22,4 +22,9 @@ class PatternController extends Controller
 
         return view('pages/patternNew', ['fabric'=>$fabric]);
     }
+    public function destroy(Pattern $pattern)
+    {
+        $pattern -> delete();
+        return  redirect()->back();
+    }
 }

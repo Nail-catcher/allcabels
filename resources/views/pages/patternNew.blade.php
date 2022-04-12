@@ -59,7 +59,7 @@
         <form action="#" class="content__form-form">
           <div class="content__form-title">Добавить справчоник</div>
           <fieldset class="content__form-fieldset">
-            <input type="text" class="xs input-search" placeholder="Поиск" name="search">
+            <input type="text" class="xs input-search" placeholder="Поиск" id ="search" name="search">
 			  <div class="content__form-list" id = "cfl">
                 {{--@foreach($fabric->guides as $guide)--}}
               {{--<label for="l1" class="content__form-list-item">--}}
@@ -251,6 +251,35 @@
 	document.getElementById("gosttubutton").onclick = addGostTu;
 	document.getElementById("btn").onclick = storePattern;
 	hui();
+
+	var search = document.getElementById("search");
+
+
+	search.addEventListener("keydown",  ()=> {
+
+		let fabric = 1;
+
+		const url = '{{ route('guides.index') }}';
+		const data = {
+			fabric: 1,
+			name: search.value,
+		};
+		let b = document.getElementById('cfl');
+		const csrfToken = "{{csrf_token()}}"
+		fetch('/api/guides?fabric=1&name='+search.value, {
+			method: 'GET',
+
+		}).then(response => response.json())
+				.then(guide => (
+						// guide.data.forEach(e=>console.log(e.name))
+						b.innerHTML = null,
+						guide.data.forEach(e=> b.innerHTML +='<label for="l1" class="content__form-list-item"><input type="checkbox" name="checkli" id="'+e.name+'" onchange="uuu(this.value, this.id, this.name)" value="'+e.id+'"><p>'+e.name+'</p></label>')
+
+				))
+
+		// 				'<label for="l1" class="content__form-list-item">'+'<input type="checkbox" name="" id="l1">'+'<p>'+e.name+'</p>'+'</label>'))
+		// // )
+	});
 	// document.getElementsByName('checkli').onclick = hui2;
 
 	//document.getElementById("btn").onclick = storeGuide;

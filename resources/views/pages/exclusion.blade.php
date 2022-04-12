@@ -38,26 +38,24 @@
             <td>{{$conflict->secondPoint->index}}</td>
             <td>
               <div class="table__action">
-                <a title="Удалить" href="#" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
+                <a title="Удалить" onclick="return confirm('Are you sure?')" href="{{url('conflict/destroy/'.$conflict->id)}}" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
               </div>
             </td>
             </tr>
             @endforeach
         </tbody>
       </table>
+
       <div class="content__footer">
         <div class="content__footer-count">
-          <span>Показано 14 из 300 кабелей</span>
+          <span>Показано 1 из 1 исключений</span>
         </div>
         <div class="content__footer-pagination">
           <a href="#" class="prev"></a>
           <ul>
-            <li><a href="#">1</a></li>
-            <li><a href="#" class="active">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><span>...</span></li>
-            <li><a href="#">22</a></li>
+            <li><a href="#" class="active">1</a></li>
+
+
           </ul>
           <a href="#" class="next"></a>
         </div>

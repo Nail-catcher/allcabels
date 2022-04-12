@@ -10,6 +10,9 @@ class Conflict extends Model
     use HasFactory;
 
     public $timestamps =false;
+
+
+
     public function firstPoint()
     {
         return $this->belongsTo(Point::class, 'first_point_id', 'id');

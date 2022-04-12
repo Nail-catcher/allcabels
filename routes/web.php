@@ -25,6 +25,10 @@ Route::get('/patterns' , [App\Http\Controllers\Web\PatternController::class,'ind
 Route::get('/patterns/create' , [App\Http\Controllers\Web\PatternController::class,'create']);
 Route::get('/guide', [App\Http\Controllers\Web\GuideController::class,'show']);
 Route::get('/guide/destroy/{guide}', [App\Http\Controllers\Web\GuideController::class,'destroy']);
+Route::get('/product/destroy/{product}', [App\Http\Controllers\Web\CabelController::class,'destroy']);
+
+Route::get('/pattern/destroy/{pattern}', [App\Http\Controllers\Web\PatternController::class,'destroy']);
+Route::get('/conflict/destroy/{conflict}', [App\Http\Controllers\Web\PatternConflictController::class,'destroy']);
 Route::resource('/conflicts',App\Http\Controllers\Web\ConflictController::class );
 Route::resource('/patternconflicts',App\Http\Controllers\Web\PatternConflictController::class );
 Route::get('/point/destroy/{point}', [App\Http\Controllers\Web\GuideController::class,'point_destroy']);
@@ -52,9 +56,7 @@ Route::get('/fabric/{id}/patterns/{pid}/exclusion', function ($id, $pid) {
     return view('pages/exclusionPattern', ['id' => $id, 'pid' => $pid]);
 });
 
-Route::get('/cabels', function () {
-    return view('pages/cabels');
-});
+Route::resource('/cabels',App\Http\Controllers\Web\CabelController::class );
 
 Route::get('/cabels/{id}', function ($id) {
     return view('pages/cabel', ['id' => $id]);
