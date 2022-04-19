@@ -145,20 +145,30 @@ class ProductController extends Controller
 
     private function storeProducts($products, $pattern)
     {
+//        dd($products);
         foreach ($products as $product){
             $storedProduct = new Product();
             $storedProduct->fabric()->associate($pattern->fabric->id);
             $storedProduct->pattern()->associate($pattern->id);
             $index = "";
             $desc = "";
-
+//dd($product);
             foreach($product as $key=>$value){
-                if(isset($value->index)){
 
-                    $index = $index ." ". $value->index;
-                    $desc = $desc ." ". $value->description;
+//                dd($product);
+//                dd(gettype($value));
+                if(gettype($value)!="string"){
+//                    dd($product[$key-1]);
+                    if(isset($product[$key-1]->guide_id) and $product[$key-1]->guide_id==$product[$key]->guide_id){
+                       // $value->index = '-'.$value->index;
+                        $index = !empty($value->index) ?$index ."-". $value->index : $index . '' ;
+                    } else {
+                    $index = !empty($value->index) ?$index ." ". $value->index : $index . '' ;
+                    }
+                    $desc = !empty($value->description) ? $desc ." ". $value->description : $desc .'';
+
                 } else {
-                    $index = $index ." ". $value;
+                    $index = $index . $value;
                 }
             }
             $storedProduct->fill([

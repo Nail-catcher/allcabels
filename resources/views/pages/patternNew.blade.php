@@ -123,33 +123,82 @@
 <script>
 	var points = [];
 	var constantcount = 0;
+	var fabricos = document.getElementById('fabric').value;
 	function ola() {
 		let q = document.getElementById('sortable');
 		q.innerHTML =null;
 		//points.forEach(e=> q.innerHTML +=e.html)
 		points.forEach(e=> q.innerHTML +=e.html)
 	}
-	function uuu(id, name,type) {
-		let bool = 0;
-		if(!type){
-			let type= 'hola';
-		}
-		let ivent = {
-			id: id.toString(),
-			name: name.toString(),
-			unique: 0,
-			type:type,
-			html: '<li class="content__list-item">\n' +
+	function uniq(id) {
+		points.forEach(e=>{
+			if(e.id==id) {
+				if(e.unique == 0){
+					e.unique = 1;
+					e.html = '<li class="content__list-item">\n' +
 					'    \t\t\t\t\t<span>'+ name +'</span>\n' +
 					'    \t\t\t\t\t<div class="content__list-action">\n' +
 					'\t    \t\t\t\t\t<label for="u1">\n' +
-					'\t    \t\t\t\t\t\t<input type="checkbox" name="unique" id="u1">\n' +
+					'\t    \t\t\t\t\t\t<input type="checkbox" onclick="uniq('+"'"+id+"'"+')" name="unique" id="u1" checked>\n' +
 					'\t    \t\t\t\t\t\t<span>Уникальный</span>\n' +
 					'\t    \t\t\t\t\t</label>\n' +
 					'\t    \t\t\t\t\t<a href="#" onclick="uuu('+"'"+id+"'"+', '+"'"+name+"'"+')" title="Удалить" class="btn-circle btn-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>\n' +
 					'\t    \t\t\t\t\t<span class="movable"></span>\n' +
 					'    \t\t\t\t\t</div>\n' +
-					'    \t\t\t\t</li>',
+					'    \t\t\t\t</li>';
+				} else {
+				e.unique = 0;
+				e.html = '<li class="content__list-item">\n' +
+						'    \t\t\t\t\t<span>'+ name +'</span>\n' +
+						'    \t\t\t\t\t<div class="content__list-action">\n' +
+						'\t    \t\t\t\t\t<label for="u1">\n' +
+						'\t    \t\t\t\t\t\t<input type="checkbox" onclick="uniq('+"'"+id+"'"+')" name="unique" id="u1">\n' +
+						'\t    \t\t\t\t\t\t<span>Уникальный</span>\n' +
+						'\t    \t\t\t\t\t</label>\n' +
+						'\t    \t\t\t\t\t<a href="#" onclick="uuu('+"'"+id+"'"+', '+"'"+name+"'"+')" title="Удалить" class="btn-circle btn-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>\n' +
+						'\t    \t\t\t\t\t<span class="movable"></span>\n' +
+						'    \t\t\t\t\t</div>\n' +
+						'    \t\t\t\t</li>';
+				}
+				}
+		});
+		console.log(points);
+	}
+	function uuu(id, name,type) {
+		let bool = 0;
+		if(!type){
+			let type= 'hola';
+		}
+		let vhtml ='';
+		console.log(type);
+		if(type=='checkli'){
+			vhtml = '<li class="content__list-item">\n' +
+			'    \t\t\t\t\t<span>'+ name +'</span>\n' +
+			'    \t\t\t\t\t<div class="content__list-action">\n' +
+			'\t    \t\t\t\t\t<label for="u1">\n' +
+			'\t    \t\t\t\t\t\t<input type="checkbox" onclick="uniq('+"'"+id+"'"+')" name="unique" id="u1" checked>\n' +
+			'\t    \t\t\t\t\t\t<span>Уникальный</span>\n' +
+			'\t    \t\t\t\t\t</label>\n' +
+			'\t    \t\t\t\t\t<a href="#" onclick="uuu('+"'"+id+"'"+', '+"'"+name+"'"+')" title="Удалить" class="btn-circle btn-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>\n' +
+			'\t    \t\t\t\t\t<span class="movable"></span>\n' +
+			'    \t\t\t\t\t</div>\n' +
+			'    \t\t\t\t</li>';
+		} else {
+			vhtml = '<li class="content__list-item">\n' +
+					'    \t\t\t\t\t<span>'+ name +'</span>\n' +
+					'    \t\t\t\t\t<div class="content__list-action">\n' +
+
+					'\t    \t\t\t\t\t<a href="#" onclick="uuu('+"'"+id+"'"+', '+"'"+name+"'"+')" title="Удалить" class="btn-circle btn-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>\n' +
+					'\t    \t\t\t\t\t<span class="movable"></span>\n' +
+					'    \t\t\t\t\t</div>\n' +
+					'    \t\t\t\t</li>';
+		}
+		let ivent = {
+			id: id.toString(),
+			name: name.toString(),
+			unique: 1,
+			type:type,
+			html: vhtml
 		};
 
 		points.forEach(e=>{
@@ -182,7 +231,7 @@
 		};
 		let b = document.getElementById('cfl');
 		const csrfToken = "{{csrf_token()}}"
-		fetch('/api/guides?fabric=1', {
+		fetch('/api/guides?fabric='+fabricos, {
 			method: 'GET',
 
 		}).then(response => response.json())
@@ -266,7 +315,7 @@
 		};
 		let b = document.getElementById('cfl');
 		const csrfToken = "{{csrf_token()}}"
-		fetch('/api/guides?fabric=1&name='+search.value, {
+		fetch('/api/guides?fabric='+fabricos+'&name='+search.value, {
 			method: 'GET',
 
 		}).then(response => response.json())

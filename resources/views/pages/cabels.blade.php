@@ -23,7 +23,7 @@
               @foreach($fabrics as $fabric)
               <div class="select__dropdown-item">
                 <label for="d1">
-                  <input type="checkbox" name="" id="d1" value="{{$fabric->name}}">
+                  <input type="checkbox" name="" onchange="getPatterns(this.value)" id="d1" value="{{$fabric->patterns}}">
                   <p>{{$fabric->name}}</p>
                 </label>
               </div>
@@ -33,15 +33,12 @@
           </div>
         </div>
         <div class="select__container tags">
-          <div class="select__container-button">Выберите кабели <i></i></div>
+          <div class="select__container-button">Выберите марку <i></i></div>
           <div class="select__container-dropdown">
             <div class="select__dropdown">
 
-              <div class="select__dropdown-item">
-                <label for="d12">
-                  <input type="checkbox" name="" id="d12" value="КВИП">
-                  <p>КВИП</p>
-                </label>
+              <div class="select__dropdown-item" id="patternfilter">
+
               </div>
 
             </div>
@@ -88,18 +85,38 @@
       </table>
       <div class="content__footer">
         <div class="content__footer-count">
-          <span>Показано 1 из 1 кабелей</span>
+          <span>Показано {{$cc}} из {{$cac}} кабелей</span>
         </div>
         <div class="content__footer-pagination">
-          <a href="#" class="prev"></a>
+          <a href="{{$cabels->previousPageURL()}}" class="prev"></a>
           <ul>
-            <li><a href="#" class="active">1</a></li>
+            <li><a href="#" class="active">{{$cabels->currentPage()}}</a></li>
 
           </ul>
-          <a href="#" class="next"></a>
+          <a href="{{$cabels->nextPageURL()}}" class="next"></a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+  <script>
+    function fltr(id) {
+      document.location.href = 'cabels?pattern='+id
+    }
+    function getPatterns(fabric) {
+      let fabricjson = JSON.parse(fabric);
+      console.log(typeof(fabricjson));
+      let b = document.getElementById('patternfilter');
+      // fabricjson.forEach(e=>console.log(e));
+      fabricjson.forEach(e=> b.innerHTML +='<label for="d'+e.id+'">' +
+              '              <input type="checkbox" onchange="fltr(this.value)" name="" id="d'+e.id+'" value="'+e.id+'">' +
+              '              <p>'+e.name+'</p>' +
+              '              </label>')
+
+
+
+    }
+  </script>
 @endsection

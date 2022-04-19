@@ -21,8 +21,11 @@ class CabelController extends Controller
         } else {
             $cabels = Product::orderBy('id', 'DESC')->paginate(30);
         }
-        $fabrics = Fabric::all();
-        return view('pages/cabels', ['cabels'=>$cabels, 'fabrics'=> $fabrics]);
+        $cac = Product::all()->count();
+        $cc=count($cabels);
+        $fabrics = Fabric::with('patterns')->get();
+        //dd($fabrics);
+        return view('pages/cabels', ['cabels'=>$cabels, 'fabrics'=> $fabrics, 'cc'=>$cc, 'cac'=>$cac]);
     }
 
     /**

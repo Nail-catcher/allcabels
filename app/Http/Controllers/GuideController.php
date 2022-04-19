@@ -18,7 +18,7 @@ class GuideController extends Controller
      */
     public function index(Request $request): GuidesResource
     {
-        $guides = Guide::where('name', 'like', $request->name.'%')->with([]);
+        $guides = Guide::where('fabric_id', $request->fabric)->where('name', 'like', $request->name.'%')->with([]);
 
         return new GuidesResource($guides->paginate($data['limit'] ?? null));
     }
