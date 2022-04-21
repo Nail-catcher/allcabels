@@ -1,35 +1,50 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Jobs;
 
-use App\Jobs\TestJob;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
 use App\Models\Conflict;
 use App\Models\Pattern;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class TestJob implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public $pattern;
+    public $conflicts;
+    public $points;
+    public function __construct($pattern,$points,$conflicts)
+    {
+        $this->pattern=$pattern;
+        $this->points=$points;
+        $this->conflicts=$conflicts;
+    }
 
-   public function __invoke(Request $request)
-   {
-       $pattern = Pattern::whereId($request->pattern)->first();
-       $points = collect($pattern->constants)
-           ->merge(collect($pattern->guides))
-           ->sortBy('pivot.index');
-       $conflicts = Conflict::whereHas('pattern',  function ($query) use ($pattern) {
-           $query->where('id', '=' ,$pattern->id);
-       })->orHas('pattern','<',1)->get();
-//       $this->dispatch(new TestJob($pattern,$points,$conflicts));
-       $products = $this->prepairProducts($pattern,$points);
-//
-       $products = $this->segregateProducts($products,$conflicts);
-       return $this->storeProducts($products, $pattern);
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $products = $this->prepairProducts($this->pattern,$this->points);
 
-
-   }
-
+        $products = $this->segregateProducts($products,$this->conflicts);
+        $this->storeProducts($products, $this->pattern);
+    }
 
 
     private function prepairProducts($pattern,$points)
@@ -47,7 +62,7 @@ class ProductController extends Controller
                         array_push($nup, [$v]);
                         foreach ($value->points as $point){
                             if($v<=$point){
-                            array_push($notUnPoi, $point);
+                                array_push($notUnPoi, $point);
 
                                 //array_push($nup2,$notUnPoi);
                             }
@@ -73,7 +88,7 @@ class ProductController extends Controller
 
                     foreach ($underThree as $ko=>$val){
 
-                                array_push($pep, collect($val)->flatten()->sortBy('id')->unique());
+                        array_push($pep, collect($val)->flatten()->sortBy('id')->unique());
 
                     }
 
@@ -136,13 +151,13 @@ class ProductController extends Controller
 
                     }
                     if (count($p) == 2){
-                       unset($products[$key]);
+                        unset($products[$key]);
                     }
                 }
             }
         }
 
-       return $products;
+        return $products;
     }
 
     private function storeProducts($products, $pattern)
@@ -162,15 +177,15 @@ class ProductController extends Controller
                 if(gettype($value)!="string"){
 //                    dd($product[$key-1]);
                     if(isset($product[$key-1]->guide_id) and $product[$key-1]->guide_id==$product[$key]->guide_id){
-                       // $value->index = '-'.$value->index;
+                        // $value->index = '-'.$value->index;
                         $index = !empty($value->index) ?$index ."-". $value->index : $index . '' ;
                     } else {
-                    $index = !empty($value->index) ?$index ." ". $value->index : $index . '' ;
+                        $index = !empty($value->index) ?$index ." ". $value->index : $index . '' ;
                     }
                     $desc = !empty($value->description) ? $desc ." ". $value->description : $desc .'';
 
                 } else {
-                    $index = $index ." ". $value;
+                    $index = $index . $value;
                 }
             }
             $storedProduct->fill([
@@ -188,86 +203,5 @@ class ProductController extends Controller
             }
         }
         return 'success';
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request): ProductsResource
-    {
-        $products = Product::where('pattern_id','=',$request->pattern)->with([]);
-        return new ProductsResource($products->paginate($data['limit'] ?? null));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product): ProductResource
-    {
-        $product->load([
-
-            'points'
-        ]);
-        return new ProductResource($product);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
