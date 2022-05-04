@@ -38,6 +38,18 @@
         <h3>Описание</h3>
         <p>{{$cabel->description}}</p>
          </div>
+
+      <div class="content__text-block">
+        <h3>Общие справочники:</h3>
+        <ul>
+          @foreach($cabel->pattern->otherguides as $guide)
+            <label>{{$guide->name}}</label>
+            @foreach($guide->points as $point)
+            <li><b>{{$point->index}}</b><p>{{$point->description}}</p></li>
+            @endforeach
+          @endforeach
+        </ul>
+      </div>
     </div>
   </div>
 </div>

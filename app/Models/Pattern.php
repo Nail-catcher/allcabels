@@ -28,4 +28,8 @@ class Pattern extends Model
     {
         return $this->belongsToMany(Conflict::class, 'pattern_conflict');
     }
+    public function otherguides()
+    {
+        return $this->belongsToMany(OtherGuides::class, 'pattern_other_guides', 'pattern_id','other_guide_id');
+    }
 }

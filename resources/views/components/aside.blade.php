@@ -24,6 +24,13 @@
 					</a>
 				</li>
 				<li>
+					<a href="/otherguides" class="{{ request()->is('otherguides*') ? 'active' : '' }}">
+						<svg><use xlink:href="{{ asset('images/svg/sprite.symbol.svg#book') }}" /></svg>
+						<span>Общие справочники</span>
+					</a>
+				</li>
+
+				<li>
 					<a href="/about" class="{{ request()->is('about*') ? 'active' : '' }}">
 						<svg><use xlink:href="{{ asset('images/svg/sprite.symbol.svg#faq') }}" /></svg>
 						<span>О системе</span>

@@ -33,7 +33,9 @@
                     <td>
                       <div class="table__action">
                         <button onclick="generate({{$pattern->id}})" class="btn btn-primary"><img src="{{ asset('images/svg/generate.svg') }}" alt=""> Сгенерировать</button>
-                        <a title="Исключения" href="/patternconflicts/?pattern={{$pattern->id}}" class="table__action-exclusion"><img src="{{ asset('images/svg/exc.svg') }}" alt=""></a>
+                          <a title="Общие справочники" href="/patternotherguides/?pattern={{$pattern->id}}" class="table__action-exclusion"><img src="{{ asset('images/svg/book.svg') }}" alt=""></a>
+
+                          <a title="Исключения" href="/patternconflicts/?pattern={{$pattern->id}}" class="table__action-exclusion"><img src="{{ asset('images/svg/exc.svg') }}" alt=""></a>
                         <a title="Редактировать" href="#" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
                         <a title="Удалить" onclick="return confirm('Are you sure?')" href="{{url('pattern/destroy/'.$pattern->id)}}"  class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
                       </div>

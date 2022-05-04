@@ -31,6 +31,8 @@ Route::get('/pattern/destroy/{pattern}', [App\Http\Controllers\Web\PatternContro
 Route::get('/conflict/destroy/{conflict}', [App\Http\Controllers\Web\PatternConflictController::class,'destroy']);
 Route::resource('/conflicts',App\Http\Controllers\Web\ConflictController::class );
 Route::resource('/patternconflicts',App\Http\Controllers\Web\PatternConflictController::class );
+
+Route::resource('/patternotherguides',App\Http\Controllers\PatternOtherGuideController::class );
 Route::get('/point/destroy/{point}', [App\Http\Controllers\Web\GuideController::class,'point_destroy']);
 Route::get('/fabric/{id}/exclusion', function ($id) {
     return view('pages/exclusion', ['id' => $id]);
@@ -65,6 +67,9 @@ Route::get('/cabels/{id}', function ($id) {
 Route::get('/about', function () {
     return view('pages/about');
 });
+
+Route::resource('/otherguides', App\Http\Controllers\OtherGuidesController::class);
+Route::resource('/otherguidespoints', App\Http\Controllers\OtherGuidesPointsController::class);
 
 Auth::routes();
 
