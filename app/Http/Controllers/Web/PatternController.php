@@ -22,6 +22,13 @@ class PatternController extends Controller
 
         return view('pages/patternNew', ['fabric'=>$fabric]);
     }
+    public function edit(Pattern $pattern){
+
+
+//        $pattern=Pattern::whereId($pattern)->first();
+//        dd($pattern->guides);
+        return view('pages/patternEdit', ['pattern'=>$pattern]);
+    }
     public function destroy(Pattern $pattern)
     {
         $pattern -> delete();

@@ -23,6 +23,8 @@ Route::get('/fabric', [App\Http\Controllers\Web\FabricController::class,'index']
 Route::get('/guides' , [App\Http\Controllers\Web\GuideController::class,'index']);
 Route::get('/patterns' , [App\Http\Controllers\Web\PatternController::class,'index']);
 Route::get('/patterns/create' , [App\Http\Controllers\Web\PatternController::class,'create']);
+
+Route::get('/patterns/{pattern}' , [App\Http\Controllers\Web\PatternController::class,'edit']);
 Route::get('/guide', [App\Http\Controllers\Web\GuideController::class,'show']);
 Route::get('/guide/destroy/{guide}', [App\Http\Controllers\Web\GuideController::class,'destroy']);
 Route::get('/product/destroy/{product}', [App\Http\Controllers\Web\CabelController::class,'destroy']);
@@ -32,7 +34,7 @@ Route::get('/conflict/destroy/{conflict}', [App\Http\Controllers\Web\PatternConf
 Route::resource('/conflicts',App\Http\Controllers\Web\ConflictController::class );
 Route::resource('/patternconflicts',App\Http\Controllers\Web\PatternConflictController::class );
 
-Route::resource('/patternotherguides',App\Http\Controllers\PatternOtherGuideController::class );
+Route::resource('/patternotherguides',App\Http\Controllers\PatternOtherGuidesPointsController::class );
 Route::get('/point/destroy/{point}', [App\Http\Controllers\Web\GuideController::class,'point_destroy']);
 Route::get('/fabric/{id}/exclusion', function ($id) {
     return view('pages/exclusion', ['id' => $id]);

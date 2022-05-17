@@ -34,13 +34,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($pattern->otherguides as $guide) <tr>
+                    @foreach ($pattern->otherguidespoints as $point) <tr>
                         {{--<td>Исключение 1</td>--}}
-                        <td>{{$guide->name}}</td>
-                        <td>{{$guide->description}}</td>
+                        <td>{{$point->index}}</td>
+                        <td>{{$point->description}}</td>
                         <td>
                             <div class="table__action">
-                                <a title="Удалить" onclick="return confirm('Are you sure?')" href="{{url('patternotherguides/destroy/'.$guide->id)}}" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
+                                <input type="hidden" id="pattern" value="{{$pattern->id}}">
+
+                                <input type="hidden" id="point" value="{{$point->id}}">
+                                <a title="Удалить" onclick="deletePoint()"  class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
                             </div>
                         </td>
                     </tr>
@@ -64,4 +67,39 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+
+        function deletePoint() {
+            const data = {
+                point: document.getElementById("point").value,
+                pattern: document.getElementById('pattern').value,
+            };
+
+            const url = '{{ route('patternotherguides.destroy', 0) }}';
+            const csrfToken = "{{csrf_token()}}"
+            fetch(url, {
+                method: 'DELETE',
+                redirect: 'follow',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-csrf-token': csrfToken
+                }
+            }).then(response => {
+                console.log(data);
+                window.location.reload()
+            }).catch(error => {
+                // обработка ошибки
+                console.log(error);
+            });
+
+        }
+
+        document.getElementById("btn").onclick = storeGuide;
+    </script>
 @endsection
+
+
+

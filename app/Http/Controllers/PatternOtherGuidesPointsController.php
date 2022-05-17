@@ -6,7 +6,7 @@ use App\Models\OtherGuides;
 use App\Models\Pattern;
 use Illuminate\Http\Request;
 
-class PatternOtherGuideController extends Controller
+class PatternOtherGuidesPointsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,7 +30,7 @@ class PatternOtherGuideController extends Controller
         $otherguides = OtherGuides::all();
         $pattern = Pattern::whereId($request->pattern)->first();
 //        dd($pattern);
-        return view('pages/patternOtherGuidesNew', ['otherguides'=>$otherguides,'pattern'=>$pattern]);
+        return view('pages/patternOtherGuidesList', ['guides'=>$otherguides,'pattern'=>$pattern]);
     }
 
     /**
@@ -43,8 +43,8 @@ class PatternOtherGuideController extends Controller
     {
 
         $pattern = Pattern::whereId($request->pattern)->first();
-        foreach ($request->guides as $guide){
-            $pattern -> otherguides() -> attach($guide);
+        foreach ($request->points as $point){
+            $pattern -> otherguidespoints() -> attach($point);
         }
         return 'succsess';
     }
@@ -55,9 +55,12 @@ class PatternOtherGuideController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $otherguide = OtherGuides::whereId($request->guide)->first();
+        $pattern = Pattern::whereId($request->pattern)->first();
+        return view('pages/patternOtherGuidesNew', ['guide'=>$otherguide,'pattern'=>$pattern]);
+
     }
 
     /**
@@ -89,8 +92,12 @@ class PatternOtherGuideController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $pattern = Pattern::whereId($request->pattern)->first();
+
+            $pattern -> otherguidespoints() -> detach($request->point);
+
+        return 'succsess';
     }
 }

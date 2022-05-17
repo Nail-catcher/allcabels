@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatternOtherGuidesTable extends Migration
+class CreatePatternOtherGuidesPointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreatePatternOtherGuidesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pattern_other_guides', function (Blueprint $table) {
+        Schema::create('pattern_other_guides_points', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pattern_id')->constrained('patterns')->cascadeOnDelete()->cascadeOnUpdate();;
-            $table->foreignId('other_guide_id')->constrained('other_guides')->cascadeOnDelete()->cascadeOnUpdate();;
+            $table->foreignId('point_id')->constrained('other_guides_points')->cascadeOnDelete()->cascadeOnUpdate();;
+
         });
     }
 
@@ -27,6 +28,6 @@ class CreatePatternOtherGuidesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pattern_other_guides');
+        Schema::dropIfExists('pattern_other_guides_points');
     }
 }

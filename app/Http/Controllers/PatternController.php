@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PatternStore;
+use App\Http\Resources\PatternResource;
 use App\Http\Resources\PatternsResource;
 use App\Models\Constant;
 use App\Models\Pattern;
@@ -69,9 +70,9 @@ class PatternController extends Controller
      * @param  \App\Models\Pattern  $pattern
      * @return \Illuminate\Http\Response
      */
-    public function show(Pattern $pattern)
+    public function show(Pattern $pattern): PatternResource
     {
-        //
+        return new PatternResource($pattern);
     }
 
     /**
@@ -92,9 +93,35 @@ class PatternController extends Controller
      * @param  \App\Models\Pattern  $pattern
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pattern $pattern)
+    public function update(PatternStore $request, Pattern $pattern)
     {
-        //
+        $data = $request->validated();
+//        dd($data);
+        $pattern =  Pattern::whereId($data['pattern'])->first();
+        $pattern->name = $data['name'];
+//        $pattern ->fill($data);
+//        $pattern->fabric()->associate($data['fabric']);
+        $pattern->save();
+
+        foreach ($pattern->guides as $guide){
+            $pattern->guides()->detach($guide);
+        }
+        foreach ($pattern->constants as $constant){
+            $pattern->constants()->detach($constant);
+        }
+        for ($i=0; $i<count($data['guides']);$i++){
+            if($data['guides'][$i]['type']=="checkli"){
+                $pattern->guides()->attach($data['guides'][$i]['id'], ['index'=>$i, 'unique'=>$data['guides'][$i]['unique']??0]);
+            } else {
+                $const = new Constant([
+                    'title'=>$data['guides'][$i]['name']
+                ]);
+                $const->save();
+                $pattern->constants()->attach($const, ['index'=>$i]);
+            }
+        }
+
+        return $pattern;
     }
 
     /**

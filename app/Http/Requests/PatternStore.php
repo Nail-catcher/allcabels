@@ -25,7 +25,12 @@ class PatternStore extends FormRequest
     public function rules()
     {
         return [
+            'pattern'=> [
+                'nullable',
+                'string',
+                'max:255'
 
+            ],
             'name' => [
                 'required',
                 'string',

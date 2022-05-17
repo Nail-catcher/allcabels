@@ -31,12 +31,12 @@
                 <div class="content__list-list justify-start">
                     {{--<strong>{{$guide->name}}</strong>--}}
                     <ul>
-                        @foreach ($otherguides as $guide)
+                        @foreach ($guide->points as $point)
                             <li class="content__list-item">
-                                <label for="in{{$guide->id}}" class="content__list-label">
-                                    <input type="checkbox" value = "{{$guide->id}}" name="{{$guide->id}}" id="in{{$guide->id}}" class="checkbox">
-                                    <b>{{$guide->name}}</b>
-                                    <span>{{$guide->description}}</span>
+                                <label for="in{{$point->id}}" class="content__list-label">
+                                    <input type="checkbox" value = "{{$point->id}}" name="{{$point->id}}" id="in{{$point->id}}" class="checkbox">
+                                    <b>{{$point->index}}</b>
+                                    <span>{{$point->description}}</span>
                                 </label>
                             </li>
                         @endforeach
@@ -65,7 +65,7 @@
             const data = {
                 pattern: document.getElementById("pattern").value,
 
-                guides: getCheckedCheckBoxes()
+                points: getCheckedCheckBoxes()
             };
             const csrfToken = "{{csrf_token()}}"
             fetch(url, {

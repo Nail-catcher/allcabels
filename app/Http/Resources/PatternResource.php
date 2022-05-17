@@ -21,7 +21,7 @@ class PatternResource extends JsonResource
 //            'guides'=> new GuidesResource($this->whenLoaded('guides')),
 //            'constants'=> new GuidesResource($this->whenLoaded('guides')),
             'guides'=> $this->guides,
-            'constants'=> $this->constants,
+            'cconstants'=> $this->constants,
         ];
     }
 }
