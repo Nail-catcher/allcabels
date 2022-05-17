@@ -42,11 +42,10 @@
       <div class="content__text-block">
         <h3>Общие справочники:</h3>
         <ul>
-          @foreach($cabel->pattern->otherguides as $guide)
-            <label>{{$guide->name}}</label>
-            @foreach($guide->points as $point)
+          @foreach($cabel->pattern->otherguidespoints as $point)
+
             <li><b>{{$point->index}}</b><p>{{$point->description}}</p></li>
-            @endforeach
+
           @endforeach
         </ul>
       </div>
