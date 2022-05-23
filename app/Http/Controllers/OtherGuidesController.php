@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OtherGuides;
+use App\Models\OtherGuidesPoints;
 use Illuminate\Http\Request;
 
 class OtherGuidesController extends Controller
@@ -81,9 +82,13 @@ class OtherGuidesController extends Controller
      * @param  \App\Models\OtherGuides  $otherGuides
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OtherGuides $otherGuides)
+    public function update(Request $request)
     {
-        //
+        $otherGuides=OtherGuides::whereId($request->guide)->first();
+        $otherGuides->name=isset($request->name) ? $request->name : $otherGuides->name;
+        $otherGuides->description=isset($request->description) ? $request->description : $otherGuides->description;
+        $otherGuides->save();
+        return $otherGuides;
     }
 
     /**
@@ -92,8 +97,10 @@ class OtherGuidesController extends Controller
      * @param  \App\Models\OtherGuides  $otherGuides
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OtherGuides $otherGuides)
+    public function destroy(Request $request)
     {
-        //
+        $otherGuides=OtherGuides::whereId($request->guide)->first();
+        $otherGuides->delete();
+        return 'success';
     }
 }

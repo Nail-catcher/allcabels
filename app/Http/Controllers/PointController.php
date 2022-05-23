@@ -78,7 +78,10 @@ class PointController extends Controller
      */
     public function update(Request $request, Point $point)
     {
-        //
+        $point->index=isset($request->index) ? $request->index : $point->index;
+        $point->description=isset($request->description) ? $request->description : $point->description;
+        $point->save();
+        return $point;
     }
 
     /**
@@ -87,10 +90,9 @@ class PointController extends Controller
      * @param  \App\Models\Point  $point
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Point $point)
     {
-        $point = Point::where('id', $id)->first();
         $point -> delete();
-        return  redirect()->back();
+        return 'success';
     }
 }

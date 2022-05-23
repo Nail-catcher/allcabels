@@ -74,9 +74,13 @@ class OtherGuidesPointsController extends Controller
      * @param  \App\Models\OtherGuidesPoints  $otherGuidesPoints
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OtherGuidesPoints $otherGuidesPoints)
+    public function update(Request $request)
     {
-        //
+        $otherGuidesPoints = OtherGuidesPoints::whereId($request->point)->first();
+        $otherGuidesPoints->index=isset($request->index) ? $request->index : $otherGuidesPoints->index;
+        $otherGuidesPoints->description=isset($request->description) ? $request->description : $otherGuidesPoints->description;
+        $otherGuidesPoints->save();
+        return $otherGuidesPoints;
     }
 
     /**
@@ -85,8 +89,10 @@ class OtherGuidesPointsController extends Controller
      * @param  \App\Models\OtherGuidesPoints  $otherGuidesPoints
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OtherGuidesPoints $otherGuidesPoints)
+    public function destroy(Request $request)
     {
+
+        $otherGuidesPoints = OtherGuidesPoints::whereId($request->point)->first();
         $otherGuidesPoints ->delete();
         return 'succsecc';
     }

@@ -85,7 +85,10 @@ class GuideController extends Controller
      */
     public function update(Request $request, Guide $guide)
     {
-        //
+        $guide->name=isset($request->name) ? $request->name : $guide->name;
+        $guide->description=isset($request->description) ? $request->description : $guide->description;
+        $guide->save();
+        return $guide;
     }
 
     /**

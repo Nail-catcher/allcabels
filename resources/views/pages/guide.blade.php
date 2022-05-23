@@ -28,7 +28,8 @@
         </thead>
         <tbody>
           @foreach ($guides as $guide) <tr>
-            <td>{{$guide->name}}</td>
+            <td><a title="Редактировать" onclick="dataUpdateGuide({{$guide}})" data-modal data-target="editManufacture" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
+              {{$guide->name}}  </td>
             <td>
               <div class="table__action">
                 <a href="{{url('/guide?guide='.$guide->id)}}" title="Редактировать" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
@@ -83,6 +84,32 @@
     </div>
   </div>
 </div>
+<div class="modal" id="editManufacture">
+  <div class="modal__overlay"></div>
+  <div class="modal__content">
+    <div class="modal__content-title">
+      <strong>Добавьте спавочник</strong>
+      <a href="#" data-dismiss class="close">&#215;</a>
+    </div>
+    <div class="modal__content-body">
+      <form action="" method="POST">
+        <label for="">
+
+          <input type="hidden" id="guide" name="guide">
+          <input type="hidden" id="fabric" name="fabric" value="{{$fabric->id}}">
+          <span>Название справочника</span>
+          <input type="text" id="editname" name="name" placeholder="Введите название справочника">
+          <span>Описание справочника</span>
+          <input type="text" id="editdesc" name="desc" placeholder="Введите описание справочника">
+        </label>
+      </form>
+    </div>
+    <div class="modal__content-footer">
+      <a href="#" class="btn btn-secondary" data-dismiss>Отменить</a>
+      <a href="#" onclick="updateGuide()" id="btn" class="btn btn-primary">Отправить</a>
+    </div>
+  </div>
+</div>
 
   <script>
     function storeGuide() {
@@ -112,6 +139,38 @@
     }
 
     document.getElementById("btn").onclick = storeGuide;
+    function dataUpdateGuide(guide) {
+      console.log(guide);
+      document.getElementById("guide").value=guide.id
+      document.getElementById("editname").value=guide.name
+      document.getElementById("editdesc").value=guide.description
+    }
 
+    function updateGuide (){
+              {{--const url = '{{ route('points.update') }}';--}}
+      const data = {
+                fabric: document.getElementById("fabric").value,
+                guide: document.getElementById("guide").value,
+                name: document.getElementById("editname").value,
+                description: document.getElementById("editdesc").value
+              };
+      const url = '/api/guides/'+data.guide;
+      const csrfToken = "{{csrf_token()}}"
+      fetch(url, {
+        method: 'PUT',
+        redirect: 'follow',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        }
+      }).then(response => {
+        console.log(data);
+        window.location.reload()
+      }).catch(error => {
+        // обработка ошибки
+        console.log(error);
+      });
+    }
   </script>
 @endsection

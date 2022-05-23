@@ -82,7 +82,9 @@ class FabricController extends Controller
      */
     public function update(Request $request, Fabric $fabric)
     {
-        //
+        $fabric->name = $request->name;
+        $fabric->save();
+        return $fabric;
     }
 
     /**

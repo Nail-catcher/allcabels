@@ -27,11 +27,12 @@
         </thead>
         <tbody>
           @foreach ($guides as $guide) <tr>
-            <td>{{$guide->name}}</td>
+            <td><a title="Редактировать" onclick="dataUpdateOGuide({{$guide}})" data-modal data-target="editOManufacture" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
+              {{$guide->name}}  </td>
             <td>
               <div class="table__action">
                 <a href="{{url('/otherguides/'.$guide->id)}}" title="Редактировать" class="table__action-edit"><img src="{{ asset('images/svg/edit.svg') }}" alt=""></a>
-                <a onclick="return confirm('Are you sure?')" href="{{url('guide/destroy/'.$guide->id)}}" title="Удалить" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
+                <a onclick="return confirm('Are you sure?') ? deleteOGuide({{$guide->id}}) : false"  title="Удалить" class="table__action-remove"><img src="{{ asset('images/svg/trash.svg') }}" alt=""></a>
               </div>
             </td>
             </tr>
@@ -62,7 +63,7 @@
   <div class="modal__overlay"></div>
   <div class="modal__content">
     <div class="modal__content-title">
-      <strong>Добавьте спавочник</strong>
+      <strong>Добавьте справочник</strong>
       <a href="#" data-dismiss class="close">&#215;</a>
     </div>
     <div class="modal__content-body">
@@ -82,7 +83,31 @@
     </div>
   </div>
 </div>
+<div class="modal" id="editOManufacture">
+  <div class="modal__overlay"></div>
+  <div class="modal__content">
+    <div class="modal__content-title">
+      <strong>Добавьте справочник</strong>
+      <a href="#" data-dismiss class="close">&#215;</a>
+    </div>
+    <div class="modal__content-body">
+      {{--<form action="" method="POST">--}}
+        <label for="">
 
+          <input type="hidden" id="guide" name="guide">
+          <span>Название справочника</span>
+          <input type="text" id="editname" name="name" placeholder="Введите название справочника">
+          <span>Описание справочника</span>
+          <input type="text" id="editdesc" name="desc" placeholder="Введите описание справочника">
+        </label>
+      {{--</form>--}}
+    </div>
+    <div class="modal__content-footer">
+      <a href="#" class="btn btn-secondary" data-dismiss>Отменить</a>
+      <a href="#" onclick="updateOGuide()" class="btn btn-primary">Отправить</a>
+    </div>
+  </div>
+</div>
   <script>
     function storeGuide() {
       const url = '{{ route('otherguides.store') }}';
@@ -111,6 +136,64 @@
     }
 
     document.getElementById("btn").onclick = storeGuide;
+    function dataUpdateOGuide(guide) {
+      console.log(guide);
+      document.getElementById("guide").value=guide.id
+      document.getElementById("editname").value=guide.name
+      document.getElementById("editdesc").value=guide.description
+    }
 
+    function updateOGuide (){
+              {{--const url = '{{ route('points.update') }}';--}}
+      const data = {
+                // fabric: document.getElementById("fabric").value,
+                guide: document.getElementById("guide").value,
+                name: document.getElementById("editname").value,
+                description: document.getElementById("editdesc").value
+              };
+      const url = 'otherguides/'+data.guide;
+      const csrfToken = "{{csrf_token()}}"
+      fetch(url, {
+        method: 'PATCH',
+        redirect: 'follow',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        }
+      }).then(response => {
+        console.log(data);
+        window.location.reload()
+      }).catch(error => {
+        // обработка ошибки
+        console.log(error);
+      });
+    }
+
+    function deleteOGuide (guide){
+              {{--const url = '{{ route('points.update') }}';--}}
+      const data = {
+                // fabric: document.getElementById("fabric").value,
+                guide: guide,
+
+              };
+      const url = 'otherguides/'+guide;
+      const csrfToken = "{{csrf_token()}}"
+      fetch(url, {
+        method: 'DELETE',
+        redirect: 'follow',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        }
+      }).then(response => {
+        console.log(data);
+        window.location.reload()
+      }).catch(error => {
+        // обработка ошибки
+        console.log(error);
+      });
+    }
   </script>
 @endsection
